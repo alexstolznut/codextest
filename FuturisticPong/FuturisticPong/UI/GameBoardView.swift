@@ -14,40 +14,68 @@ struct GameBoardView: View {
 
             Rectangle()
                 .fill(Color.cyan.opacity(0.25))
-                .frame(width: 2)
-                .padding(.vertical, 20)
+                .frame(height: 2)
+                .padding(.horizontal, 20)
 
-            paddle(atX: viewModel.cpuPaddleX, y: GameConstants.paddleInset + GameConstants.paddleHeight / 2)
-            paddle(atX: viewModel.playerPaddleX, y: GameConstants.boardSize.height - GameConstants.paddleInset - GameConstants.paddleHeight / 2)
+            paddle(x: GameConfig.paddleInset + GameConfig.paddleSize.width / 2, y: viewModel.playerPaddleY)
+            paddle(x: GameConfig.boardSize.width - GameConfig.paddleInset - GameConfig.paddleSize.width / 2, y: viewModel.cpuPaddleY)
 
             Circle()
                 .fill(
-                    RadialGradient(colors: [Color.white, Color.cyan], center: .center, startRadius: 0, endRadius: GameConstants.ballSize)
+                    RadialGradient(colors: [Color.white, Color.cyan], center: .center, startRadius: 0, endRadius: GameConfig.ballSize)
                 )
-                .frame(width: GameConstants.ballSize, height: GameConstants.ballSize)
+                .frame(width: GameConfig.ballSize, height: GameConfig.ballSize)
                 .position(viewModel.ballPosition)
                 .shadow(color: .cyan, radius: 8)
+
+            stateOverlay
         }
-        .frame(width: GameConstants.boardSize.width, height: GameConstants.boardSize.height)
+        .frame(width: GameConfig.boardSize.width, height: GameConfig.boardSize.height)
         .contentShape(Rectangle())
         .gesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { gesture in
-                    viewModel.movePlayerPaddle(to: gesture.location.x)
+                    viewModel.movePlayerPaddle(to: gesture.location.y)
                 }
         )
     }
 
-    private func paddle(atX x: CGFloat, y: CGFloat) -> some View {
+    private var stateOverlay: some View {
+        Group {
+            switch viewModel.matchState {
+            case .ready:
+                overlayLabel("Tap Start")
+            case .paused:
+                overlayLabel("Paused")
+            case .pointScored:
+                overlayLabel("Point")
+            case .gameOver(let winner):
+                overlayLabel(winner == .left ? "You Win" : "AI Wins")
+            case .playing:
+                EmptyView()
+            }
+        }
+    }
+
+    private func overlayLabel(_ text: String) -> some View {
+        Text(text)
+            .font(.headline)
+            .foregroundStyle(.white)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(.ultraThinMaterial, in: Capsule())
+    }
+
+    private func paddle(x: CGFloat, y: CGFloat) -> some View {
         RoundedRectangle(cornerRadius: 6)
             .fill(
                 LinearGradient(
                     colors: [Color(red: 0.48, green: 0.9, blue: 1), Color(red: 0.2, green: 0.44, blue: 0.95)],
-                    startPoint: .leading,
-                    endPoint: .trailing
+                    startPoint: .top,
+                    endPoint: .bottom
                 )
             )
-            .frame(width: GameConstants.paddleWidth, height: GameConstants.paddleHeight)
+            .frame(width: GameConfig.paddleSize.width, height: GameConfig.paddleSize.height)
             .position(x: x, y: y)
             .shadow(color: .blue.opacity(0.6), radius: 6)
     }

@@ -11,6 +11,8 @@
 		A00000000000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000012 /* ContentView.swift */; };
 		A00000000000000000000003 /* PongGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000013 /* PongGameViewModel.swift */; };
 		A00000000000000000000004 /* GameConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000014 /* GameConstants.swift */; };
+		A00000000000000000000040 /* GameConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000041 /* GameConfig.swift */; };
+		A00000000000000000000042 /* GameEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000043 /* GameEngine.swift */; };
 		A00000000000000000000005 /* GameBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000015 /* GameBoardView.swift */; };
 		A00000000000000000000006 /* ScoreHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000016 /* ScoreHeaderView.swift */; };
 		A00000000000000000000007 /* ControlHintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000017 /* ControlHintView.swift */; };
@@ -29,6 +31,8 @@
 		A00000000000000000000017 /* ControlHintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlHintView.swift; sourceTree = "<group>"; };
 		A00000000000000000000018 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		A00000000000000000000019 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A00000000000000000000041 /* GameConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConfig.swift; sourceTree = "<group>"; };
+		A00000000000000000000043 /* GameEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEngine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +80,8 @@
 			isa = PBXGroup;
 			children = (
 				A00000000000000000000013 /* PongGameViewModel.swift */,
+				A00000000000000000000041 /* GameConfig.swift */,
+				A00000000000000000000043 /* GameEngine.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -178,6 +184,8 @@
 				A00000000000000000000001 /* FuturisticPongApp.swift in Sources */,
 				A00000000000000000000002 /* ContentView.swift in Sources */,
 				A00000000000000000000003 /* PongGameViewModel.swift in Sources */,
+				A00000000000000000000040 /* GameConfig.swift in Sources */,
+				A00000000000000000000042 /* GameEngine.swift in Sources */,
 				A00000000000000000000004 /* GameConstants.swift in Sources */,
 				A00000000000000000000005 /* GameBoardView.swift in Sources */,
 				A00000000000000000000006 /* ScoreHeaderView.swift in Sources */,
