@@ -6,7 +6,7 @@ struct ScoreHeaderView: View {
 
     var body: some View {
         HStack {
-            scoreColumn(title: "CPU", score: cpuScore)
+            scoreColumn(title: "AI", score: cpuScore)
             Spacer()
             Text("Futuristic Pong")
                 .font(.headline)
