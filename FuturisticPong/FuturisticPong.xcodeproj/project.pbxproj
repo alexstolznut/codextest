@@ -18,6 +18,11 @@
 		A00000000000000000000007 /* ControlHintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000017 /* ControlHintView.swift */; };
 		A00000000000000000000008 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000018 /* AudioManager.swift */; };
 		A00000000000000000000009 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000019 /* Assets.xcassets */; };
+		A00000000000000000000061 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000062 /* Theme.swift */; };
+		A00000000000000000000063 /* NeonPaddleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000064 /* NeonPaddleView.swift */; };
+		A00000000000000000000065 /* NeonBallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000066 /* NeonBallView.swift */; };
+		A00000000000000000000067 /* ScoreHUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000068 /* ScoreHUDView.swift */; };
+		A00000000000000000000069 /* SessionOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000070 /* SessionOverlayView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +38,11 @@
 		A00000000000000000000019 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A00000000000000000000041 /* GameConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConfig.swift; sourceTree = "<group>"; };
 		A00000000000000000000043 /* GameEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEngine.swift; sourceTree = "<group>"; };
+		A00000000000000000000062 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		A00000000000000000000064 /* NeonPaddleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeonPaddleView.swift; sourceTree = "<group>"; };
+		A00000000000000000000066 /* NeonBallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeonBallView.swift; sourceTree = "<group>"; };
+		A00000000000000000000068 /* ScoreHUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreHUDView.swift; sourceTree = "<group>"; };
+		A00000000000000000000070 /* SessionOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionOverlayView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,9 +99,11 @@
 		A00000000000000000000025 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				A00000000000000000000062 /* Theme.swift */,
 				A00000000000000000000015 /* GameBoardView.swift */,
 				A00000000000000000000016 /* ScoreHeaderView.swift */,
 				A00000000000000000000017 /* ControlHintView.swift */,
+				A00000000000000000000071 /* Components */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -110,6 +122,17 @@
 				A00000000000000000000014 /* GameConstants.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000071 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000064 /* NeonPaddleView.swift */,
+				A00000000000000000000066 /* NeonBallView.swift */,
+				A00000000000000000000068 /* ScoreHUDView.swift */,
+				A00000000000000000000070 /* SessionOverlayView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,6 +213,11 @@
 				A00000000000000000000005 /* GameBoardView.swift in Sources */,
 				A00000000000000000000006 /* ScoreHeaderView.swift in Sources */,
 				A00000000000000000000007 /* ControlHintView.swift in Sources */,
+				A00000000000000000000061 /* Theme.swift in Sources */,
+				A00000000000000000000063 /* NeonPaddleView.swift in Sources */,
+				A00000000000000000000065 /* NeonBallView.swift in Sources */,
+				A00000000000000000000067 /* ScoreHUDView.swift in Sources */,
+				A00000000000000000000069 /* SessionOverlayView.swift in Sources */,
 				A00000000000000000000008 /* AudioManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
