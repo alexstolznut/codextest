@@ -13,6 +13,13 @@ enum PlayerSide {
     case right
 }
 
+enum GameEvent {
+    case paddleHit(side: PlayerSide)
+    case wallHit
+    case score(side: PlayerSide)
+    case speedUp(level: Int)
+}
+
 struct GameEngine {
     private(set) var leftScore = 0
     private(set) var rightScore = 0
@@ -26,12 +33,19 @@ struct GameEngine {
     private var pointResetTimer: CGFloat = 0
     private var aiReactionTimer: CGFloat = 0
     private var rallyCount = 0
+    private var lastSpeedLevel = 0
+    private var emittedEvents: [GameEvent] = []
 
     init() {
         let centerY = GameConfig.boardSize.height / 2
         leftPaddleY = centerY
         rightPaddleY = centerY
         ballPosition = CGPoint(x: GameConfig.boardSize.width / 2, y: centerY)
+    }
+
+    mutating func consumeEvents() -> [GameEvent] {
+        defer { emittedEvents.removeAll(keepingCapacity: true) }
+        return emittedEvents
     }
 
     mutating func startMatchIfNeeded() {
@@ -108,6 +122,7 @@ struct GameEngine {
         ballVelocity = .zero
         rallyCount = 0
         pointResetTimer = 0
+        lastSpeedLevel = 0
     }
 
     private mutating func updateAIPaddle(deltaTime: CGFloat) {
@@ -136,9 +151,11 @@ struct GameEngine {
         if ballPosition.y <= radius {
             ballPosition.y = radius
             ballVelocity.dy = abs(ballVelocity.dy)
+            emittedEvents.append(.wallHit)
         } else if ballPosition.y >= GameConfig.boardSize.height - radius {
             ballPosition.y = GameConfig.boardSize.height - radius
             ballVelocity.dy = -abs(ballVelocity.dy)
+            emittedEvents.append(.wallHit)
         }
     }
 
@@ -153,19 +170,26 @@ struct GameEngine {
            ballPosition.x - radius <= leftPaddleX + halfPaddleWidth,
            abs(ballPosition.y - leftPaddleY) <= halfPaddleHeight + radius {
             ballPosition.x = leftPaddleX + halfPaddleWidth + radius
-            reflectFromPaddle(paddleY: leftPaddleY, direction: 1)
+            reflectFromPaddle(paddleY: leftPaddleY, direction: 1, side: .left)
         }
 
         if ballVelocity.dx > 0,
            ballPosition.x + radius >= rightPaddleX - halfPaddleWidth,
            abs(ballPosition.y - rightPaddleY) <= halfPaddleHeight + radius {
             ballPosition.x = rightPaddleX - halfPaddleWidth - radius
-            reflectFromPaddle(paddleY: rightPaddleY, direction: -1)
+            reflectFromPaddle(paddleY: rightPaddleY, direction: -1, side: .right)
         }
     }
 
-    private mutating func reflectFromPaddle(paddleY: CGFloat, direction: CGFloat) {
+    private mutating func reflectFromPaddle(paddleY: CGFloat, direction: CGFloat, side: PlayerSide) {
         rallyCount += 1
+        emittedEvents.append(.paddleHit(side: side))
+
+        let speedLevel = rallyCount / 4
+        if speedLevel > lastSpeedLevel {
+            lastSpeedLevel = speedLevel
+            emittedEvents.append(.speedUp(level: speedLevel))
+        }
 
         let relative = (ballPosition.y - paddleY) / (GameConfig.paddleSize.height / 2)
         let clamped = relative.clamped(to: -1...1)
@@ -182,9 +206,11 @@ struct GameEngine {
     private mutating func handleScoringIfNeeded() {
         if ballPosition.x < 0 {
             rightScore += 1
+            emittedEvents.append(.score(side: .right))
             onPointScored()
         } else if ballPosition.x > GameConfig.boardSize.width {
             leftScore += 1
+            emittedEvents.append(.score(side: .left))
             onPointScored()
         }
     }

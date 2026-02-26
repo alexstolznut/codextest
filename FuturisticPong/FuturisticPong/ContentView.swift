@@ -4,21 +4,29 @@ struct ContentView: View {
     @StateObject private var viewModel = PongGameViewModel()
 
     var body: some View {
-        ZStack {
-            LinearGradient(
-                colors: [Color(red: 0.04, green: 0.02, blue: 0.18), Color(red: 0.01, green: 0.01, blue: 0.08)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+        GeometryReader { proxy in
+            ZStack {
+                AnimatedBackdropView()
 
-            VStack(spacing: 20) {
-                ScoreHeaderView(playerScore: viewModel.playerScore, cpuScore: viewModel.cpuScore)
-                GameBoardView(viewModel: viewModel)
-                controls
-                ControlHintView()
+                VStack(spacing: 16) {
+                    ScoreHeaderView(
+                        playerScore: viewModel.playerScore,
+                        cpuScore: viewModel.cpuScore,
+                        streakCount: viewModel.playerStreak,
+                        speedBoostActive: viewModel.speedBoostActive
+                    )
+
+                    GameBoardView(viewModel: viewModel, rematchAction: quickRematch)
+                        .scaleEffect(boardScale(in: proxy.size), anchor: .top)
+
+                    controls
+                    ControlHintView()
+                }
+                .padding(.horizontal, 12)
+                .padding(.top, proxy.safeAreaInsets.top + 6)
+                .padding(.bottom, max(proxy.safeAreaInsets.bottom, 12))
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
-            .padding()
         }
     }
 
@@ -32,12 +40,20 @@ struct ContentView: View {
                     .frame(minWidth: 90)
             }
             .buttonStyle(.borderedProminent)
+            .tint(UITheme.neonBlue)
 
             Button("Reset") {
                 viewModel.restartMatch()
             }
             .buttonStyle(.bordered)
+            .tint(UITheme.neonCyan)
         }
+    }
+
+    private func boardScale(in size: CGSize) -> CGFloat {
+        let widthScale = max(0.74, (size.width - 24) / GameConfig.boardSize.width)
+        let heightScale = max(0.64, (size.height * 0.66) / GameConfig.boardSize.height)
+        return min(widthScale, heightScale, 1)
     }
 
     private var primaryTitle: String {
@@ -58,11 +74,15 @@ struct ContentView: View {
         case .playing, .paused:
             viewModel.togglePause()
         case .gameOver:
-            viewModel.restartMatch()
-            viewModel.startMatch()
+            quickRematch()
         case .ready, .pointScored:
             viewModel.startMatch()
         }
+    }
+
+    private func quickRematch() {
+        viewModel.restartMatch()
+        viewModel.startMatch()
     }
 }
 
